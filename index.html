@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For Sulu</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #ffe6e6;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      overflow-x: hidden;
+    }
+    header { padding: 20px; }
+    h1 {
+      font-size: 2.5em;
+      color: #ff4d4d;
+      animation: glow 2s infinite;
+    }
+    .heart-frame {
+      border: 8px solid #ff9999;
+      border-radius: 50%;
+      overflow: hidden;
+      width: 250px;
+      height: 250px;
+      margin: auto;
+      box-shadow: 0px 0px 20px rgba(255, 153, 153, 0.8);
+    }
+    .heart-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    @keyframes glow {
+      0% { text-shadow: 0px 0px 5px #ff9999; }
+      50% { text-shadow: 0px 0px 15px #ff9999; }
+      100% { text-shadow: 0px 0px 5px #ff9999; }
+    }
+    /* Button Styles */
+    button {
+      background-color: #ffcccc;
+      border: none;
+      padding: 15px 30px;
+      margin: 10px;
+      font-size: 1.2em;
+      color: #333;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      background-color: #ff9999;
+      transform: scale(1.1);
+      box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.3);
+    }
+    /* Icon style */
+    .icon {
+      display: inline-block;
+      background-color: #ff9999;
+      color: #fff;
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 1.2em;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+    }
+    .icon:hover {
+      background-color: #ff4d4d;
+      transform: scale(1.05);
+    }
+    /* Floating Hearts Animation for Background */
+    .floating-hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+    .floating-hearts .heart {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background-color: #ff4d4d;
+      border-radius: 50%;
+      animation: floatUp 4s infinite ease-in-out;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(100vh); opacity: 1; }
+      100% { transform: translateY(0); opacity: 0; }
+    }
+    /* Hugs & Hearts Animation for Surprise */
+    .hug-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 5;
+    }
+    .hug-animation .hug {
+      position: absolute;
+      font-size: 2em;
+      animation: floatHugs 3s infinite ease-in-out;
+    }
+    @keyframes floatHugs {
+      0% { transform: translateY(100vh); opacity: 1; }
+      100% { transform: translateY(-10vh); opacity: 0; }
+    }
+    /* Overlays for Interactive Content */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      display: none;
+      z-index: 10;
+    }
+    /* Love Letter (with slideIn animation) */
+    .letter {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 300px;
+      height: 350px;
+      background-color: #ffd1dc;
+      border-radius: 10px;
+      box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #800000;
+      opacity: 0;
+      animation: slideIn 1s forwards;
+    }
+    @keyframes slideIn {
+      0% { transform: translate(-50%, -60%) scale(0.8); opacity: 0; }
+      100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    }
+    .letter img {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 10px;
+    }
+    .letter span {
+      margin-top: 10px;
+      font-style: italic;
+      font-size: 1em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .letter span::before {
+      content: "❤️ "; /* Love emoji */
+    }
+    /* Envelope for Our Memories & also used for "7 Reasons" overlay */
+    .envelope {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 350px;
+      background-color: #ffd1dc;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
+      animation: openEnvelope 1s forwards;
+    }
+    @keyframes openEnvelope {
+      0% { transform: translate(-50%, -60%) scale(0.8); opacity: 0; }
+      100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    }
+    .envelope h2 {
+      font-size: 1.5em;
+      color: #800000;
+    }
+    .envelope p {
+      text-align: left;
+      font-size: 1.2em;
+      line-height: 1.5;
+      color: #800000;
+    }
+    /* Footer Styles */
+    footer {
+      font-size: 1.2em;
+      color: #800000;
+      padding: 20px;
+      background-color: #ffe6e6;
+      margin-top: 30px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <!-- Background Music -->
+  <audio src="Apna Bana Le Bhediya 320 Kbps (mp3cut.net).mp3" controls></audio>
+  <!-- Floating Hearts Container (Background) -->
+  <div class="floating-hearts" id="floating-hearts"></div>
+  
+  <!-- Hug Animation Container (for Surprise) -->
+  <div class="hug-animation" id="hug-animation"></div>
+  
+  <header>
+    <!-- Landing Page Photo -->
+    <div class="heart-frame">
+      <img src="sulu.png.jpg" alt="Sulu">
+    </div>
+    <h1>Hi Sulu… this website is just for you.</h1>
+    <p style="font-style: italic; color: #800000;">
+      “Tujhse baat na ho toh lagta hai jaise dil ne login toh kiya ho, par connection timeout ho gaya ho.”
+    </p>
+  </header>
+  
+  <!-- Buttons Section -->
+  <section class="buttons">
+    <button onclick="showLetter('I’m sorry, but please come back to me. How long will you keep your Paglu waiting?')">I Miss You</button>
+    <button onclick="showLetter('You were my love, you are my love, and you always will be my love.')">I Love You</button>
+    <button onclick="showLetter('Mistakes happen with everyone, but living without you feels impossible.')">Talk to Me</button>
+    <button onclick="showLetter('Bit me if you’re angry, but please don’t leave me alone.')">Bit Me</button>
+    <button onclick="triggerSurprise()">Surprise for You</button>
+  </section>
+  
+  <!-- Memories Icon Section -->
+  <section class="memories">
+    <div class="icon" onclick="showMemoryEnvelope()">📝 Our Memories</div>
+  </section>
+  
+  <!-- Additional Icons Section -->
+  <section class="additional-icons">
+    <div class="icon" onclick="showReasonsOverlay()">7 Reasons to Love You</div>
+    <div class="icon" onclick="showWebsiteOverlay()">Why This Website</div>
+  </section>
+  
+  <!-- Overlays -->
+  
+  <!-- Love Letter Overlay -->
+  <div class="overlay" id="overlay" onclick="hideOverlay('overlay')">
+    <div class="letter" id="letter">
+      <img src="my.png.png" alt="Cute Teddy">
+      <span id="letter-message"></span>
+    </div>
+  </div>
+  
+  <!-- Our Memories (Envelope) Overlay -->
+  <div class="overlay" id="memory-overlay" onclick="hideOverlay('memory-overlay')">
+    <div class="envelope">
+      <h2>Our Story</h2>
+      <p>When you joined RRU, life felt so different, Sulu. You worked so hard, and I felt both proud and heartbroken at the same time. It wasn’t easy for you, and it wasn’t easy for me either. But through every challenge, my feelings for you only grew stronger. Missing you has taught me how precious you are to me. I’ve learned to treasure every moment, every memory we’ve shared.</p>
+      <p>Every late-night chat, every laugh, every tear—it’s all etched in my heart forever. Love, Paglu.</p>
+    </div>
+  </div>
+  
+  <!-- 7 Reasons to Love You Overlay -->
+  <div class="overlay" id="reasons-overlay" onclick="hideOverlay('reasons-overlay')">
+    <div class="envelope">
+      <h2>7 Reasons of love like 7 wonders of world</h2>
+      <p>1. Your smile lights up my world.</p>
+      <p>2. Your kindness touches me deeply.</p>
+      <p>3. Your laughter is pure music.</p>
+      <p>4. Your strength inspires me.</p>
+      <p>5. Your beauty radiates from within.</p>
+      <p>6. Your wisdom guides me.</p>
+      <p>7. Your love makes life worth living.</p>
+      <p>I don't know what is real love, but my love for you is real.</p>
+    </div>
+  </div>
+  
+  <!-- Why This Website Overlay -->
+  <div class="overlay" id="website-overlay" onclick="hideOverlay('website-overlay')">
+    <div class="letter">
+      <img src="bhu.png.png" alt="Cute Teddy">
+      <span>
+        It is not a website, it's my letter to Sulu.<br>
+        Please don't be angry for more days on me.
+      </span>
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <footer>
+    <p>Created by Paglu for his Sulu — Ab to thoda has le meri darling ❤</p>
+    <p style="color: #ff4d4d; font-weight: bold;">
+      Ab to mere se baat kar le, mere ko akele mat chod. 🥺
+    </p>
+  </footer>
+  
+  <script>
+    // Function to show overlay by id
+    function hideOverlay(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+  
+    // Love Letter: show message overlay
+    function showLetter(message) {
+      const overlay = document.getElementById('overlay');
+      const letterMessage = document.getElementById('letter-message');
+      letterMessage.textContent = message;
+      overlay.style.display = 'block';
+    }
+  
+    // Our Memories: show envelope overlay
+    function showMemoryEnvelope() {
+      document.getElementById('memory-overlay').style.display = 'block';
+    }
+  
+    // 7 Reasons To Love You: show reasons overlay
+    function showReasonsOverlay() {
+      document.getElementById('reasons-overlay').style.display = 'block';
+    }
+  
+    // Why This Website: show website overlay
+    function showWebsiteOverlay() {
+      document.getElementById('website-overlay').style.display = 'block';
+    }
+  
+    // Surprise Animation: trigger a burst of hugs and hearts
+    function createSurpriseSymbol() {
+      const symbols = ['🤗', '❤️', '😘'];
+      const symbol = document.createElement('div');
+      symbol.className = 'hug';
+      symbol.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      symbol.style.left = Math.random() * 100 + 'vw';
+      symbol.style.animationDuration = (Math.random() * 2 + 3) + 's';
+      document.getElementById('hug-animation').appendChild(symbol);
+      setTimeout(() => symbol.remove(), 3000);
+    }
+    function triggerSurprise() {
+      const intervalId = setInterval(createSurpriseSymbol, 200);
+      setTimeout(() => clearInterval(intervalId), 5000);
+    }
+  
+    // Floating Hearts: keep adding hearts in the background
+    function createFloatingHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+      document.getElementById('floating-hearts').appendChild(heart);
+      setTimeout(() => heart.remove(), 4000);
+    }
+    setInterval(createFloatingHeart, 300);
+  </script>
+</body>
+</html>
